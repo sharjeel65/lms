@@ -257,14 +257,10 @@ class _ApprovalsState extends State<Approvals> {
                                       recipients: [emailto],
                                       isHTML: false,
                                     );
-                                    setState(() {
-                                      FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(snapshot.data!.docs[index].id)
-                                          .update({'verified': false});
-                                    });
-                                    print(getuseremail(snapshot, index)
-                                        .toString());
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(snapshot.data!.docs[index].id)
+                                        .update({'verified': false});
                                     await FlutterEmailSender.send(
                                         sendEmailVerified);
                                   },
