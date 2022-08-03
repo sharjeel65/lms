@@ -57,7 +57,7 @@ class _adminDashboardState extends State<adminDashboard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 18),
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 17),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,41 +584,44 @@ class _adminDashboardState extends State<adminDashboard> {
                   : subjects
                       ? AllSubjects()
                       : settings
-                          ? Container(
-                              height:
-                                  MediaQuery.of(context).size.height / 100 * 78,
-                              width: MediaQuery.of(context).size.width,
-                              child: Center(
-                                child: Container(
-                                  width: 150,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.shade300,
-                                        offset: Offset(2, 1),
-                                        blurRadius: 8,
-                                        spreadRadius: 2,
-                                      )
-                                    ],
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.white,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      await FirebaseAuth.instance
-                                          .signOut()
-                                          .then((value) {
-                                        Navigator.of(context)
-                                            .popUntil((route) => route.isFirst);
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoginPage()));
-                                      });
-                                    },
-                                    child: Center(
-                                      child: Text('Log Out'),
+                          ? Expanded(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height /
+                                    100 *
+                                    78,
+                                width: MediaQuery.of(context).size.width,
+                                child: Center(
+                                  child: Container(
+                                    width: 150,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade300,
+                                          offset: Offset(2, 1),
+                                          blurRadius: 8,
+                                          spreadRadius: 2,
+                                        )
+                                      ],
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        await FirebaseAuth.instance
+                                            .signOut()
+                                            .then((value) {
+                                          Navigator.of(context).popUntil(
+                                              (route) => route.isFirst);
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LoginPage()));
+                                        });
+                                      },
+                                      child: Center(
+                                        child: Text('Log Out'),
+                                      ),
                                     ),
                                   ),
                                 ),
