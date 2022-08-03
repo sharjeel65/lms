@@ -1,20 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lms/UserdashboardWidgets/SemesterPayment.dart';
 
-import 'grades.dart';
+import 'GradesAdmin.dart';
 
-class UserDashGrade extends StatefulWidget {
+class AdminDashGrade extends StatefulWidget {
   var snapshotu;
 
-  UserDashGrade({Key? key, required this.snapshotu}) : super(key: key);
+  AdminDashGrade({Key? key, required this.snapshotu}) : super(key: key);
 
   @override
-  State<UserDashGrade> createState() => _UserDashGradeState();
+  State<AdminDashGrade> createState() => _AdminDashGradeState();
 }
 
-class _UserDashGradeState extends State<UserDashGrade> {
+class _AdminDashGradeState extends State<AdminDashGrade> {
+  @override
+  initState() {
+    super.initState();
+  }
+
   String dropdownvalue = 'Semester 1';
   User? user = FirebaseAuth.instance.currentUser;
 
@@ -29,18 +33,6 @@ class _UserDashGradeState extends State<UserDashGrade> {
     'Semester 7',
     'Semester 8',
   ];
-
-  showPaymentDialog() {
-    showDialog(
-        context: context,
-        builder: (_) => Center(
-              child: Container(
-                height: 350,
-                width: 250,
-                color: Colors.white,
-              ),
-            ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +96,7 @@ class _UserDashGradeState extends State<UserDashGrade> {
                 ),
                 child: Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 110,
                       height: 19,
                       child: DropdownButtonHideUnderline(
@@ -145,12 +137,12 @@ class _UserDashGradeState extends State<UserDashGrade> {
           Container(
             margin: EdgeInsets.only(bottom: 20),
             width: double.maxFinite,
-            height: MediaQuery.of(context).size.height / 100 * 64.5,
+            height: MediaQuery.of(context).size.height / 100 * 100,
             child: FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('Courses')
-                    .doc(widget.snapshotu.data['appliedTo'])
-                    .collection(user!.uid)
+                    .doc(widget.snapshotu['appliedTo'])
+                    .collection(widget.snapshotu.id)
                     .doc(dropdownvalue == 'Semester 1'
                         ? '1'
                         : dropdownvalue == 'Semester 2'
@@ -178,12 +170,14 @@ class _UserDashGradeState extends State<UserDashGrade> {
                       child: Center(child: CircularProgressIndicator()),
                     );
                   } else {
-                    return FutureBuilder<DocumentSnapshot>(
-                        future: FirebaseFirestore.instance
-                            .collection('Courses')
-                            .doc(widget.snapshotu.data['appliedTo'])
-                            .collection(user!.uid)
-                            .doc(dropdownvalue == 'Semester 1'
+                    return ListView.builder(
+                        itemCount: snapshot.data.docs.length,
+                        itemBuilder: (context, index) {
+                          return GradesAdmin(
+                            name: snapshot.data.docs[index].id,
+                            courseName: widget.snapshotu['appliedTo'],
+                            doc: snapshot.data.docs[index],
+                            semester: dropdownvalue == 'Semester 1'
                                 ? '1'
                                 : dropdownvalue == 'Semester 2'
                                     ? '2'
@@ -201,78 +195,9 @@ class _UserDashGradeState extends State<UserDashGrade> {
                                                         : dropdownvalue ==
                                                                 'Semester 8'
                                                             ? '8'
-                                                            : '')
-                            .get(),
-                        builder: (context, values) {
-                          if (values.hasData) {
-                            var data = values.data!;
-                            if (data['enrollment'] == true &&
-                                data['payment'] == true) {
-                              return ListView.builder(
-                                  itemCount: snapshot.data.docs.length,
-                                  itemBuilder: (context, index) {
-                                    return Grades(
-                                      name: snapshot.data.docs[index].id,
-                                      courseName:
-                                          widget.snapshotu.data['appliedTo'],
-                                      doc: snapshot.data.docs[index],
-                                    );
-                                  });
-                            } else {
-                              return Center(
-                                child: Container(
-                                  width: 250,
-                                  height: 200,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Center(
-                                        child: Text(
-                                            'Please enroll or pay semester fee'),
-                                      ),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SemesterPayment(
-                                                        Course: widget.snapshotu
-                                                            .data['appliedTo'],
-                                                        semester: dropdownvalue ==
-                                                                'Semester 1'
-                                                            ? '1'
-                                                            : dropdownvalue ==
-                                                                    'Semester 2'
-                                                                ? '2'
-                                                                : dropdownvalue ==
-                                                                        'Semester 3'
-                                                                    ? '3'
-                                                                    : dropdownvalue ==
-                                                                            'Semester 4'
-                                                                        ? '4'
-                                                                        : dropdownvalue ==
-                                                                                'Semester 5'
-                                                                            ? '5'
-                                                                            : dropdownvalue == 'Semester 6'
-                                                                                ? '6'
-                                                                                : dropdownvalue == 'Semester 7'
-                                                                                    ? '7'
-                                                                                    : dropdownvalue == 'Semester 8'
-                                                                                        ? '8'
-                                                                                        : ''),
-                                              ),
-                                            );
-                                          },
-                                          child: Text('Enroll')),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
-                          } else {
-                            return Container();
-                          }
+                                                            : '',
+                            userid: widget.snapshotu.id,
+                          );
                         });
                   }
                 }),

@@ -170,6 +170,15 @@ class InitSemesters {
             .doc('Information Technology')
             .collection(userid)
             .doc(i.toString())
+            .set({
+          'enrollment': false,
+          'payment': false,
+        });
+        db
+            .collection('Courses')
+            .doc('Information Technology')
+            .collection(userid)
+            .doc(i.toString())
             .collection('Grades')
             .doc(subjects['subjects$i']![j])
             .set({

@@ -31,7 +31,7 @@ class CreditCardState extends State<CreditCard> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(
+        SizedBox(
           height: 210,
           width: 350,
           child: CreditCardWidget(

@@ -17,6 +17,7 @@ int formnumber = 1;
 
 class SignupPageState extends State<SignupPage> {
   User? user = FirebaseAuth.instance.currentUser;
+
   StateRefresh() {
     setState(() {
       formnumber;

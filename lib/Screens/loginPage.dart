@@ -29,8 +29,8 @@ class LoginPageState extends State<LoginPage> {
   }
 
   FirebaseFirestore db = FirebaseFirestore.instance;
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
   final _focusEmail = FocusNode();
   final _focusPassword = FocusNode();
   final _formkey = GlobalKey<FormState>();

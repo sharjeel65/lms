@@ -1,19 +1,29 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lms/AdminWidgets/AdminDetailDashAttendance.dart';
 import 'package:lms/UserdashboardWidgets/DetailAttendance.dart';
 
-class attendance extends StatelessWidget {
-  final DocumentSnapshot doc;
-  final String name;
-  final String courseName;
-  const attendance(
+class attendanceAdmin extends StatefulWidget {
+  late final DocumentSnapshot doc;
+  late final String name;
+  late final String courseName;
+  late final String userid;
+  late final String semester;
+   attendanceAdmin(
       {Key? key,
-      required this.doc,
-      required this.name,
-      required this.courseName})
+        required this.name,
+        required this.courseName,
+        required this.doc,
+        required this.semester,
+        required this.userid})
       : super(key: key);
 
+  @override
+  State<attendanceAdmin> createState() => _attendanceAdminState();
+}
+
+class _attendanceAdminState extends State<attendanceAdmin> {
   @override
   Widget build(BuildContext context) {
     double AttendanceCalculator(DocumentSnapshot doc) {
@@ -27,20 +37,24 @@ class attendance extends StatelessWidget {
       return (a / 32) * 100;
     }
 
-    double width = 300 * (AttendanceCalculator(doc) / 100);
+    double width = 300 * (AttendanceCalculator(widget.doc) / 100);
 
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => DetailAttendance(doc: doc),
+            builder: (context) => AdminDashDetailAttendance(doc: widget.doc,
+              semester: widget.semester,
+              subject: widget.name,
+              coursename: widget.courseName,
+              userid: widget.userid,),
           ),
         );
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
         height: MediaQuery.of(context).size.height / 100 * 8,
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -60,7 +74,7 @@ class attendance extends StatelessWidget {
             FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('subjectInfo')
-                    .doc(name)
+                    .doc(widget.name)
                     .get(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -86,7 +100,7 @@ class attendance extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    name,
+                    widget.name,
                     style: TextStyle(
                       color: Color(0xff969191),
                       fontFamily: 'Arial',
@@ -111,10 +125,10 @@ class attendance extends StatelessWidget {
                           color: width < 210
                               ? Colors.red
                               : width <= 240
-                                  ? Colors.yellow
-                                  : width > 241
-                                      ? Colors.green
-                                      : Colors.yellow,
+                              ? Colors.yellow
+                              : width > 241
+                              ? Colors.green
+                              : Colors.yellow,
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
@@ -122,7 +136,7 @@ class attendance extends StatelessWidget {
                   )
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),

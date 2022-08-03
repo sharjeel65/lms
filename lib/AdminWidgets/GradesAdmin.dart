@@ -1,19 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lms/AdminWidgets/DetailGradesAdminDash.dart';
 import 'package:lms/UserdashboardWidgets/DetailGrade.dart';
 
-class Grades extends StatelessWidget {
+class GradesAdmin extends StatefulWidget {
   late final DocumentSnapshot doc;
   late final String name;
   late final String courseName;
-  Grades(
+  late final String userid;
+  late final String semester;
+
+  GradesAdmin(
       {Key? key,
       required this.name,
       required this.courseName,
-      required this.doc})
+      required this.doc,
+      required this.semester,
+      required this.userid})
       : super(key: key);
 
+  @override
+  State<GradesAdmin> createState() => _GradesAdminState();
+}
+
+class _GradesAdminState extends State<GradesAdmin> {
   @override
   Widget build(BuildContext context) {
     String gradeCalculator(DocumentSnapshot doc) {
@@ -52,20 +63,26 @@ class Grades extends StatelessWidget {
                                   : 'F';
     }
 
-    Map Assignments = doc['Assignments'];
-    Map Quizes = doc['Quizes'];
+    Map Assignments = widget.doc['Assignments'];
+    Map Quizes = widget.doc['Quizes'];
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => DetailGrades(doc: doc),
+            builder: (context) => DetailGradesAdminDash(
+              doc: widget.doc,
+              semester: widget.semester,
+              subject: widget.name,
+              coursename: widget.courseName,
+              userid: widget.userid,
+            ),
           ),
         );
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        height: MediaQuery.of(context).size.height / 100 * 13,
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+        height: MediaQuery.of(context).size.height / 100 * 12,
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -84,7 +101,7 @@ class Grades extends StatelessWidget {
             FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('subjectInfo')
-                    .doc(name)
+                    .doc(widget.name)
                     .get(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -110,7 +127,7 @@ class Grades extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    widget.name,
                     style: TextStyle(
                       color: Color(0xff969191),
                       fontFamily: 'Arial',
@@ -164,24 +181,24 @@ class Grades extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Grade: ${gradeCalculator(doc)}',
+                          'Grade: ${gradeCalculator(widget.doc)}',
                           style: TextStyle(
                             color: Color(0xff969191),
                             fontFamily: 'Arial',
                             fontSize: 12,
                           ),
                         ),
-                        gradeCalculator(doc) == 'F'
+                        gradeCalculator(widget.doc) == 'F'
                             ? Icon(
                                 Icons.warning_rounded,
                                 color: Colors.red.withOpacity(0.4),
                               )
-                            : gradeCalculator(doc) == 'E'
+                            : gradeCalculator(widget.doc) == 'E'
                                 ? Icon(
                                     Icons.warning_rounded,
                                     color: Colors.yellow.withOpacity(0.4),
                                   )
-                                : gradeCalculator(doc) == 'D'
+                                : gradeCalculator(widget.doc) == 'D'
                                     ? Icon(
                                         Icons.warning_rounded,
                                         color: Colors.green.withOpacity(0.4),

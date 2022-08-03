@@ -68,7 +68,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                   fontSize: !expanded ? _bigFontSize : 50,
                   fontFamily: 'rockwell'),
               child: const Text(
-                "LMS",
+                "SMS",
               ),
             ),
             AnimatedCrossFade(

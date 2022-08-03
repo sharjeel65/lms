@@ -69,7 +69,14 @@ class FireAuth {
     } catch (e) {
       print(e);
     }
-    return user;
+    if (user?.emailVerified == false) {
+      await user?.sendEmailVerification();
+      errormessage =
+      'A verification email has been sent to you. Please check your email/spam folder and verify!';
+      return user;
+    } else {
+      return user;
+    }
   }
 
   // For signing in an user (have already registered)
@@ -140,7 +147,13 @@ class FireAuth {
       await user?.updatePhotoURL(
           'https://firebasestorage.googleapis.com/v0/b/lmsapp-44b29.appspot.com/o/AvatarMaker.png?alt=media&token=58b89cdc-5145-4ed6-9b6a-6f3732149ce0');
     }
-    return user;
+    if (user?.emailVerified == false) {
+      await user?.sendEmailVerification();
+      errormessage =
+          'A verification email has been sent to you. Please check your email/spam folder and verify!';
+    } else {
+      return user;
+    }
   }
 
   static Future<User?> refreshUser(User user) async {

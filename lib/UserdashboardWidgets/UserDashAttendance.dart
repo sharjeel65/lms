@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'SemesterPayment.dart';
 import 'attendance.dart';
 
 class UserDashAttendance extends StatefulWidget {
   var snapshotu;
+
   UserDashAttendance({Key? key, required this.snapshotu}) : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class _UserDashAttendanceState extends State<UserDashAttendance> {
     'Semester 8',
   ];
   String dropdown2value = 'Semester 1';
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -127,7 +130,7 @@ class _UserDashAttendanceState extends State<UserDashAttendance> {
             ],
           ),
           Container(
-            padding: EdgeInsets.all(5),
+            margin: EdgeInsets.only(bottom: 20),
             width: double.maxFinite,
             height: MediaQuery.of(context).size.height / 100 * 64.5,
             child: FutureBuilder(
@@ -162,14 +165,103 @@ class _UserDashAttendanceState extends State<UserDashAttendance> {
                       child: Center(child: CircularProgressIndicator()),
                     );
                   } else {
-                    return ListView.builder(
-                        itemCount: snapshot.data.docs.length,
-                        itemBuilder: (context, index) {
-                          return attendance(
-                            name: snapshot.data.docs[index].id,
-                            courseName: widget.snapshotu.data['appliedTo'],
-                            doc: snapshot.data.docs[index],
-                          );
+                    return FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('Courses')
+                            .doc(widget.snapshotu.data['appliedTo'])
+                            .collection(user!.uid)
+                            .doc(dropdown2value == 'Semester 1'
+                                ? '1'
+                                : dropdown2value == 'Semester 2'
+                                    ? '2'
+                                    : dropdown2value == 'Semester 3'
+                                        ? '3'
+                                        : dropdown2value == 'Semester 4'
+                                            ? '4'
+                                            : dropdown2value == 'Semester 5'
+                                                ? '5'
+                                                : dropdown2value == 'Semester 6'
+                                                    ? '6'
+                                                    : dropdown2value ==
+                                                            'Semester 7'
+                                                        ? '7'
+                                                        : dropdown2value ==
+                                                                'Semester 8'
+                                                            ? '8'
+                                                            : '')
+                            .get(),
+                        builder: (context, values) {
+                          if (values.hasData) {
+                            var data = values.data!;
+                            print('${widget.snapshotu.data['appliedTo']}'
+                                '${snapshot.data.docs[0].id}');
+                            if (data['enrollment'] == true &&
+                                data['payment'] == true) {
+                              return ListView.builder(
+                                  itemCount: snapshot.data.docs.length,
+                                  itemBuilder: (context, index) {
+                                    return attendance(
+                                      name: snapshot.data.docs[index].id,
+                                      courseName:
+                                          widget.snapshotu.data['appliedTo'],
+                                      doc: snapshot.data.docs[index],
+                                    );
+                                  });
+                            } else {
+                              return Center(
+                                child: Container(
+                                  width: 250,
+                                  height: 200,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                            'Please enroll or pay semester fee'),
+                                      ),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SemesterPayment(
+                                                        Course: widget.snapshotu
+                                                            .data['appliedTo'],
+                                                        semester: dropdown2value ==
+                                                                'Semester 1'
+                                                            ? '1'
+                                                            : dropdown2value ==
+                                                                    'Semester 2'
+                                                                ? '2'
+                                                                : dropdown2value ==
+                                                                        'Semester 3'
+                                                                    ? '3'
+                                                                    : dropdown2value ==
+                                                                            'Semester 4'
+                                                                        ? '4'
+                                                                        : dropdown2value ==
+                                                                                'Semester 5'
+                                                                            ? '5'
+                                                                            : dropdown2value == 'Semester 6'
+                                                                                ? '6'
+                                                                                : dropdown2value == 'Semester 7'
+                                                                                    ? '7'
+                                                                                    : dropdown2value == 'Semester 8'
+                                                                                        ? '8'
+                                                                                        : ''),
+                                              ),
+                                            );
+                                          },
+                                          child: Text('Enroll')),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                          } else {
+                            return Container();
+                          }
                         });
                   }
                 }),

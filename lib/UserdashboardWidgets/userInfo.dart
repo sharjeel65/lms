@@ -51,7 +51,7 @@ class UserProfile extends StatelessWidget {
                 padding: EdgeInsets.only(right: 38),
                 child: CircleAvatar(
                   backgroundImage: CachedNetworkImageProvider(user.photoURL!),
-                  maxRadius: 30,
+                  maxRadius: 25,
                 ),
               ),
               Container(
