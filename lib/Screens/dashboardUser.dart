@@ -10,8 +10,8 @@ import 'package:lms/UserdashboardWidgets/userInfo.dart';
 import '../Services/SubjectsData.dart';
 import '../SupportiveWidgets.dart/PdfApi.dart';
 import '../SupportiveWidgets.dart/PdfTranscriptapi.dart';
-import '../SupportiveWidgets.dart/TranscriptApiModel/customer.dart';
-import '../SupportiveWidgets.dart/TranscriptApiModel/supplier.dart';
+import '../SupportiveWidgets.dart/TranscriptApiModel/student.dart';
+import '../SupportiveWidgets.dart/TranscriptApiModel/lms.dart';
 import '../SupportiveWidgets.dart/TranscriptApiModel/transcript.dart';
 
 class userDashboard extends StatefulWidget {

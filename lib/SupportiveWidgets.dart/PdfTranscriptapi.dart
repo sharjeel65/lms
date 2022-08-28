@@ -5,11 +5,11 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-import '../SupportiveWidgets.dart/TranscriptApiModel/customer.dart';
-import '../SupportiveWidgets.dart/TranscriptApiModel/supplier.dart';
+import '../SupportiveWidgets.dart/TranscriptApiModel/student.dart';
+import '../SupportiveWidgets.dart/TranscriptApiModel/lms.dart';
 import '../SupportiveWidgets.dart/TranscriptApiModel/transcript.dart';
 import 'PdfApi.dart';
-import 'TranscriptApiModel/customer.dart';
+import 'TranscriptApiModel/student.dart';
 import 'TranscriptApiModel/transcript.dart';
 
 class pdfTranscriptApi {

@@ -7,6 +7,7 @@ class Grades extends StatelessWidget {
   late final DocumentSnapshot doc;
   late final String name;
   late final String courseName;
+
   Grades(
       {Key? key,
       required this.name,
@@ -30,12 +31,12 @@ class Grades extends StatelessWidget {
       int finalterm = doc['Finalterm'] ?? 0;
       int AllQuizes = Quiz1 + Quiz2 + Quiz3 + Quiz4;
       int AllAssignment = Assignment1 + Assignment2 + Assignment3 + Assignment4;
-      double Grade = (AllAssignment / 4) +
-          (AllQuizes / 4) +
-          (midterm / 4) +
-          (finalterm / 2) +
-          presentation;
-      return Grade > 90 && Grade < 100
+      double Grade = (AllAssignment / 100 * 10) +
+          (AllQuizes / 100 * 10) +
+          (midterm / 100 * 25) +
+          (finalterm / 100 * 50) +
+          presentation / 100 * 5;
+      return Grade > 90
           ? 'A+'
           : Grade > 80 && Grade < 90
               ? 'A'
@@ -172,20 +173,125 @@ class Grades extends StatelessWidget {
                           ),
                         ),
                         gradeCalculator(doc) == 'F'
-                            ? Icon(
-                                Icons.warning_rounded,
-                                color: Colors.red.withOpacity(0.4),
+                            ? Row(
+                                children: [
+                                  Text(
+                                    'Low Grade',
+                                    style: TextStyle(
+                                      color: Color(0xff969191),
+                                      fontFamily: 'Arial',
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    color: Colors.red.withOpacity(0.4),
+                                    icon: Icon(Icons.warning_rounded),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) => AlertDialog(
+                                          title: const Text("Failed"),
+                                          content: const Text(
+                                              "You have to take this course again"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(ctx).pop();
+                                              },
+                                              child: Container(
+                                                color: Colors.green.shade200,
+                                                padding:
+                                                    const EdgeInsets.all(14),
+                                                child: const Text("okay"),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
                               )
                             : gradeCalculator(doc) == 'E'
-                                ? Icon(
-                                    Icons.warning_rounded,
-                                    color: Colors.yellow.withOpacity(0.4),
-                                  )
+                                ? Row(
+                          children: [
+                            Text(
+                              'Low Grade',
+                              style: TextStyle(
+                                color: Color(0xff969191),
+                                fontFamily: 'Arial',
+                                fontSize: 12,
+                              ),
+                            ),
+                            IconButton(
+                              color: Colors.yellow.withOpacity(0.4),
+                              icon: Icon(Icons.warning_rounded),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: const Text("Low Grade"),
+                                    content: const Text(
+                                        "You can take this course again to improve your grade"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: Container(
+                                          color: Colors.green.shade200,
+                                          padding:
+                                          const EdgeInsets.all(14),
+                                          child: const Text("okay"),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        )
                                 : gradeCalculator(doc) == 'D'
-                                    ? Icon(
-                                        Icons.warning_rounded,
-                                        color: Colors.green.withOpacity(0.4),
-                                      )
+                                    ? Row(
+                          children: [
+                            Text(
+                              'Average Grade',
+                              style: TextStyle(
+                                color: Color(0xff969191),
+                                fontFamily: 'Arial',
+                                fontSize: 12,
+                              ),
+                            ),
+                            IconButton(
+                              color: Colors.green.withOpacity(0.4),
+                              icon: Icon(Icons.warning_rounded),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: const Text("Average Grade"),
+                                    content: const Text(
+                                        "You can increase your grade further by taking course again"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: Container(
+                                          color: Colors.green.shade200,
+                                          padding:
+                                          const EdgeInsets.all(14),
+                                          child: const Text("okay"),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        )
                                     : Container(),
                       ],
                     ),

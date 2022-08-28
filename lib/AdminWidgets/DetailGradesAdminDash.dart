@@ -74,9 +74,7 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                   .doc(widget.semester)
                                   .collection('Grades')
                                   .doc(widget.subject)
-                                  .update({
-                                path: int.parse(controller.text)
-                              });
+                                  .update({path: int.parse(controller.text)});
                             }
                             Navigator.pop(context);
                           },
@@ -146,10 +144,13 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                   dialog(
                                       context: context,
                                       formKey: _formKey,
-                                       path: 'Assignments.1');
+                                      path: 'Assignments.1');
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(10 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -184,6 +185,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(10 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -218,6 +222,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(10 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -252,6 +259,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(10 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -269,6 +279,7 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -299,6 +310,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(10 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -333,6 +347,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(10 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -367,6 +384,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(10 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -401,6 +421,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(10 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -430,7 +453,7 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                             ),
                           ),
                           Row(
-                            children: [
+                             children: [
                               Text(
                                 widget.doc['Presentation'].toString(),
                                 style: TextStyle(
@@ -448,6 +471,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(5 max)',style: TextStyle(
+                                color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -482,6 +508,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(100 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],
@@ -516,6 +545,9 @@ class _DetailGradesAdminDashState extends State<DetailGradesAdminDash> {
                                 },
                                 child: Icon(Icons.edit),
                               ),
+                              Text('(100 max)',style: TextStyle(
+                                  color: Colors.black26
+                              ),),
                             ],
                           ),
                         ],

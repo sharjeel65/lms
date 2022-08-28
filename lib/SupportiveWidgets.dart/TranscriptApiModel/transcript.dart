@@ -1,6 +1,6 @@
-import 'package:lms/SupportiveWidgets.dart/TranscriptApiModel/supplier.dart';
+import 'package:lms/SupportiveWidgets.dart/TranscriptApiModel/lms.dart';
 
-import 'customer.dart';
+import 'student.dart';
 
 class Transcript {
   final ProgramInfo Details;

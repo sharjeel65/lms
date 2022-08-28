@@ -47,12 +47,12 @@ class CalculateMarks {
     int finalterm = doc['Finalterm'] ?? 0;
     int AllQuizes = Quiz1 + Quiz2 + Quiz3 + Quiz4;
     int AllAssignment = Assignment1 + Assignment2 + Assignment3 + Assignment4;
-    double Grade = (AllAssignment / 4) +
-        (AllQuizes / 4) +
-        (midterm / 4) +
-        (finalterm / 2) +
-        presentation;
-    return Grade > 90 && Grade < 100
+    double Grade = (AllAssignment/100*10) +
+        (AllQuizes / 100*10) +
+        (midterm / 100*25) +
+        (finalterm / 100*50) +
+        presentation/100*5;
+    return Grade > 90
         ? 'A+'
         : Grade > 80 && Grade < 90
             ? 'A'
